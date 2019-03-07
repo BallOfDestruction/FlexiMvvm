@@ -37,6 +37,14 @@ namespace FlexiMvvm.Ioc
             ItemsProviders[typeof(T)] = new ItemProvider(() => factory(), reuse);
         }
 
+        public void Register(IModule module)
+        {
+            if (module == null)
+                throw new ArgumentNullException(nameof(module));
+
+            module.Load(this);
+        }
+
         public T Get<T>()
         {
             if (_itemsProviders != null && _itemsProviders.TryGetValue(typeof(T), out var itemProvider))
